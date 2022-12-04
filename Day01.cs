@@ -1,6 +1,6 @@
 ﻿namespace Advent2022;
 
-class Day01 : BaseDay
+public class Day01 : BaseDay
 {
     protected override string Part1()
     {
