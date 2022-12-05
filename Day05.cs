@@ -1,4 +1,6 @@
-﻿namespace Advent2022;
+﻿using System.Collections;
+
+namespace Advent2022;
 
 public class Day05 : BaseDay
 {
@@ -52,6 +54,28 @@ public class Day05 : BaseDay
 
     protected override string Part2()
     {
-        return null;
+        var separatorIndex = Input.FindIndex(x => x == string.Empty);
+        var crates = ReadStartingCrates(separatorIndex);
+        foreach (var line in Input.Skip(separatorIndex + 1))
+        {
+            var splitLine = line.Split(' ');
+            var quantity = int.Parse(splitLine[1]);
+            var from = int.Parse(splitLine[3]) - 1;
+            var to = int.Parse(splitLine[5]) - 1;
+            var toPush = new Stack<char>();
+            while (quantity > 0)
+            {
+                quantity--;
+                toPush.Push(crates[from].Pop());
+            }
+
+            var reversed = new Stack<char>(toPush.Reverse().ToList());
+            while (reversed.Count > 0)
+            {
+                crates[to].Push(reversed.Pop());
+            }
+        }
+
+        return new string(crates.Select(x => x.Peek()).ToArray());
     }
 }
